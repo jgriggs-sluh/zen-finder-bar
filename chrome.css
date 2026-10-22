@@ -6,11 +6,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-/* The find bar is positioned against its tab's content area */
-.browserContainer {
-  position: relative;
-}
-
 findbar {
   --arc-findbar-width: 380px;
   --arc-findbar-inset: 12px;
@@ -22,6 +17,11 @@ findbar {
   --arc-findbar-border: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 8%));
   --arc-findbar-caret: light-dark(#3b82f6, #7aa7ff);
 
+  /* .browserContainer is a grid that puts the find bar in a row below the
+     page. An absolutely positioned grid item with a grid-area is placed
+     against that row, which is off-screen, so clear it to position against
+     the whole content area instead. */
+  grid-area: auto !important;
   position: absolute !important;
   top: var(--arc-findbar-inset) !important;
   right: var(--arc-findbar-inset) !important;
