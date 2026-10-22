@@ -9,13 +9,15 @@
 findbar {
   --arc-findbar-width: 380px;
   --arc-findbar-inset: 12px;
-  --arc-findbar-bg: light-dark(#f8f9fe, #2b2b30);
-  --arc-findbar-fg: light-dark(#1f1f23, #ececf0);
-  --arc-findbar-muted: light-dark(#8a8d96, #8e8e96);
-  --arc-findbar-icon: light-dark(#55575e, #b4b4bc);
-  --arc-findbar-hover: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 8%));
-  --arc-findbar-border: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 8%));
-  --arc-findbar-caret: light-dark(#3b82f6, #7aa7ff);
+  /* Always light, like Arc, regardless of the browser theme */
+  color-scheme: light !important;
+  --arc-findbar-bg: #f8f9fe;
+  --arc-findbar-fg: #1f1f23;
+  --arc-findbar-muted: #8a8d96;
+  --arc-findbar-icon: #55575e;
+  --arc-findbar-hover: rgb(0 0 0 / 6%);
+  --arc-findbar-border: rgb(0 0 0 / 8%);
+  --arc-findbar-caret: #3b82f6;
 
   /* .browserContainer is a grid that puts the find bar in a row below the
      page. An absolutely positioned grid item with a grid-area is placed
@@ -118,7 +120,7 @@ findbar .findbar-textbox {
 
   &[status="notfound"] {
     background-color: transparent !important;
-    color: light-dark(#d4304d, #ff7b8f) !important;
+    color: #d4304d !important;
   }
 
   &[flash="true"] {
@@ -170,13 +172,12 @@ findbar .findbar-label {
   white-space: nowrap !important;
 }
 
-findbar .findbar-find-status:empty,
+/* Searching already wraps around the page on its own; hide the status text
+   ("Reached end of page, continued from top", "Phrase not found"). The
+   search text turns red when there's no match. */
+findbar .findbar-find-status,
 findbar .find-status-icon {
   display: none !important;
-}
-
-findbar .findbar-find-status[status="notfound"] {
-  font-weight: normal !important;
 }
 
 /* Option checkboxes are hidden unless enabled in mod preferences */
