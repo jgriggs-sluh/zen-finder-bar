@@ -1,0 +1,205 @@
+/* Arc-style Find Bar
+ * Floats the find-in-page bar as a card in the top-right corner of the
+ * page, styled after Arc Browser.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* The find bar is positioned against its tab's content area */
+.browserContainer {
+  position: relative;
+}
+
+findbar {
+  --arc-findbar-width: 380px;
+  --arc-findbar-inset: 12px;
+  --arc-findbar-bg: light-dark(#f8f9fe, #2b2b30);
+  --arc-findbar-fg: light-dark(#1f1f23, #ececf0);
+  --arc-findbar-muted: light-dark(#8a8d96, #8e8e96);
+  --arc-findbar-icon: light-dark(#55575e, #b4b4bc);
+  --arc-findbar-hover: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 8%));
+  --arc-findbar-border: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 8%));
+  --arc-findbar-caret: light-dark(#3b82f6, #7aa7ff);
+
+  position: absolute !important;
+  top: var(--arc-findbar-inset) !important;
+  right: var(--arc-findbar-inset) !important;
+  z-index: 10 !important;
+  width: min(var(--arc-findbar-width), calc(100% - 2 * var(--arc-findbar-inset))) !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 6px 6px 6px 14px !important;
+  box-sizing: border-box !important;
+  align-items: center !important;
+
+  background-color: var(--arc-findbar-bg) !important;
+  color: var(--arc-findbar-fg) !important;
+  border: 1px solid var(--arc-findbar-border) !important;
+  border-radius: 10px !important;
+  corner-shape: superellipse(var(--zen-squircle-value, 2));
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 10%),
+    0 8px 24px rgb(0 0 0 / 18%) !important;
+
+  opacity: 1;
+  transform: none;
+  transition-property: opacity, transform, visibility !important;
+  transition-duration: 140ms, 140ms, 0s !important;
+  transition-timing-function: ease-out !important;
+  transition-delay: 0s !important;
+
+  &:where([hidden]) {
+    margin: 0 !important;
+    visibility: hidden !important;
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+    pointer-events: none;
+    transition-delay: 0s, 0s, 140ms !important;
+  }
+
+  &[noanim] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+
+  @media (prefers-reduced-motion) {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+
+findbar .findbar-container {
+  flex: 1 !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+findbar [anonid="findbar-textbox-wrapper"] {
+  flex: 1 !important;
+  min-width: 0 !important;
+  align-items: center !important;
+}
+
+/* Search field: borderless, with a magnifying glass on the left */
+findbar .findbar-textbox {
+  flex: 1 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+  padding: 0 0 0 30px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  background-image: url("chrome://global/skin/icons/search-glass.svg") !important;
+  background-repeat: no-repeat !important;
+  background-position: left center !important;
+  background-size: 18px !important;
+  -moz-context-properties: fill;
+  fill: var(--arc-findbar-icon);
+  color: var(--arc-findbar-fg) !important;
+  caret-color: var(--arc-findbar-caret);
+  font-size: 15px !important;
+
+  &::placeholder {
+    color: var(--arc-findbar-muted) !important;
+    opacity: 1;
+  }
+
+  &:focus {
+    background-color: transparent !important;
+    outline: none !important;
+  }
+
+  &[status="notfound"] {
+    background-color: transparent !important;
+    color: light-dark(#d4304d, #ff7b8f) !important;
+  }
+
+  &[flash="true"] {
+    background-color: transparent !important;
+  }
+}
+
+/* Previous / next / close buttons */
+findbar :is(.findbar-find-previous, .findbar-find-next),
+findbar .close-icon.findbar-closebutton {
+  appearance: none !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 6px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  background-color: transparent !important;
+  -moz-context-properties: fill;
+  fill: var(--arc-findbar-icon) !important;
+  color: var(--arc-findbar-icon) !important;
+
+  &:not([disabled]):hover {
+    background-color: var(--arc-findbar-hover) !important;
+  }
+}
+
+/* Arrows only appear once there's something to step through */
+findbar :is(.findbar-find-previous, .findbar-find-next)[disabled] {
+  display: none !important;
+}
+
+findbar .findbar-find-previous {
+  margin-inline-start: 4px !important;
+}
+
+/* Keep the close button on the right on every platform */
+findbar > .findbar-closebutton {
+  order: 99 !important;
+  margin-inline-start: 2px !important;
+}
+
+/* Match count and status: small, muted, right-aligned */
+findbar .findbar-label {
+  margin: 0 4px !important;
+  font-size: 12px !important;
+  color: var(--arc-findbar-muted) !important;
+  white-space: nowrap !important;
+}
+
+findbar .findbar-find-status:empty,
+findbar .find-status-icon {
+  display: none !important;
+}
+
+findbar .findbar-find-status[status="notfound"] {
+  font-weight: normal !important;
+}
+
+/* Option checkboxes are hidden unless enabled in mod preferences */
+findbar .findbar-container > checkbox,
+findbar :is([anonid="match-case-status"], [anonid="match-diacritics-status"], [anonid="entire-word-status"]) {
+  display: none !important;
+}
+
+@media (-moz-pref("zen.mods.arc-findbar.show-options")) {
+  findbar .findbar-container {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+  }
+
+  findbar [anonid="findbar-textbox-wrapper"] {
+    flex-basis: 100% !important;
+  }
+
+  findbar .findbar-container > checkbox {
+    display: flex !important;
+    margin: 0 10px 4px 0 !important;
+    font-size: 12px !important;
+    color: var(--arc-findbar-muted) !important;
+    accent-color: var(--arc-findbar-caret);
+  }
+}

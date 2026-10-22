@@ -1,0 +1,8 @@
+[
+  {
+    "property": "zen.mods.arc-findbar.show-options",
+    "label": "Show Highlight All / Match Case / Whole Words options",
+    "type": "checkbox",
+    "defaultValue": false
+  }
+]

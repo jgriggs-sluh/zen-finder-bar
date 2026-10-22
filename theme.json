@@ -1,0 +1,13 @@
+{
+  "id": "arc-style-findbar",
+  "name": "Arc-style Find Bar",
+  "description": "Floats the find-in-page bar as a clean card in the top-right corner of the page, styled after Arc Browser.",
+  "style": "chrome.css",
+  "readme": "readme.md",
+  "preferences": "preferences.json",
+  "author": "jgriggs",
+  "version": "1.0.0",
+  "tags": ["findbar", "ui", "arc"],
+  "createdAt": "2026-10-22",
+  "updatedAt": "2026-10-22"
+}
